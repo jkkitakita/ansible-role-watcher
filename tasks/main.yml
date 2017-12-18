@@ -1,0 +1,47 @@
+---
+# tasks file for jkkitakita.watcher
+- name: Install python python-pip
+  become: yes
+  yum:
+    pkg:
+      - python
+      - python-pip
+    state: latest
+
+- name: Install pyinotify
+  become: yes
+  pip:
+    name: pyinotify
+    state: latest
+
+- name: Create opt-bin directory
+  file:
+    path: "{{ watcher_command_dir }}"
+    state: directory
+    owner: "{{ watcher_owner }}"
+    group: "{{ watcher_group }}"
+    mode: 0755
+
+- name: Upload watcher.py to remote server
+  copy:
+    src: watcher.py
+    dest: "{{ watcher_command_dir }}/watcher.py"
+    owner: "{{ watcher_owner }}"
+    group: "{{ watcher_group }}"
+    mode: 0755
+  notify: restart watcher
+
+- name: Create etc-watcher directory
+  file:
+    path: "{{ watcher_config_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Create watcher.ini.j2 to remote servers
+  template:
+    src: watcher.ini.j2
+    dest: "{{ watcher_config_dir }}/watcher.ini"
+    owner: "{{ watcher_owner }}"
+    group: "{{ watcher_group }}"
+    mode: 0644
+  notify: restart watcher

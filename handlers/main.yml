@@ -1,0 +1,4 @@
+---
+# handlers file for jkkitakita.watcher
+- name: restart watcher
+  shell: '{{ watcher_command_dir }}/watcher.py -c {{ watcher_config_dir }}/watcher.ini restart'

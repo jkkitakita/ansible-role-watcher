@@ -1,0 +1,6 @@
+---
+# defaults file for jkkitakita.watcher
+watcher_command_dir: "/opt/bin"
+watcher_config_dir: "/etc/watcher"
+watcher_owner: "root"
+watcher_group: "root"
